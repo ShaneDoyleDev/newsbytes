@@ -3,6 +3,7 @@ import pyfiglet
 from dotenv import load_dotenv
 from user_account import UserAccount
 from currency import Currency
+from news_vendor import NewsVendor
 
 # Load environment variables from '.env' file.
 load_dotenv()
@@ -47,6 +48,9 @@ def main():
 
     # instantiate currency class
     currency = Currency(exchange_rate_api_key, currency)
+
+    # instantiate news vendor class
+    news_vendor = NewsVendor(news_api_key)
 
 if __name__ == "__main__":
     main()
