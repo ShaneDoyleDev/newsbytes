@@ -87,6 +87,39 @@ def main():
                 except ValueError:
                     print("❌ Amount must be a number. Please try again!")
 
+        # Purchase credits for users account
+        if choice == "2":
+            clear_screen()
+            print("========= Purchase Credits =========")
+            print(f"💳 Account Credits: ({user.credits})")
+            for idx, option in enumerate(news_vendor.credit_options, 1):
+                print(f"({idx}) {option} credits: {currency.symbol}{option * currency.conversion_rate:.2f}")
+            print("")
+
+            while True:
+                credits_choice = input(f"Select credit amount (1 - {len(news_vendor.credit_options)}): ").strip()
+
+                if not credits_choice:
+                    print("❌ Amount cannot be empty. Please try again!")
+                    continue
+
+                if not credits_choice in map(str, range(1, len(news_vendor.credit_options)+1)):
+                    print("❌ Please enter a valid option!")
+                    continue
+
+                selected_credits = news_vendor.credit_options[int(credits_choice) - 1]
+
+                if user.funds < selected_credits * currency.conversion_rate:
+                    clear_screen()
+                    print("❌ Insufficient funds. Please add more funds to your account!")
+                    print("↩️ Returning to main menu...")
+                    sleep(3)
+                    break
+                else:
+                    user.credits += selected_credits
+                    user.funds -= selected_credits * currency.conversion_rate
+                    break
+
 
 if __name__ == "__main__":
     main()
