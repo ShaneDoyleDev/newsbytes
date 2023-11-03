@@ -120,6 +120,84 @@ def main():
                     user.funds -= selected_credits * currency.conversion_rate
                     break
 
+        # Purchase news articles
+        if choice == "3":
+            clear_screen()
+            print("====== Purchase News Article ======")
+            print(f"💳 Account Credits: ({user.credits})")
+            print("")
+
+            promo_category = news_vendor.get_promo_category()
+
+            # show categories
+            for idx, category in enumerate(news_vendor.categories, 1):
+                # add promo message to category if it is the promo category
+                if category == promo_category:
+                    print(f"({idx}) {category.title()} - {news_vendor.get_promo_message(category)} (Cost: 1 credit)")
+                else:
+                    print(f"({idx}) {category.title()} - (Cost: 2 credits)")
+
+            while True:
+                # get category choice
+                print("")
+                category_choice = input(f"Select category (1 - {len(news_vendor.categories)}): ").strip()
+
+                if not category_choice:
+                    print("❌ Category cannot be empty. Please try again!")
+                    continue
+
+                if not category_choice in map(str, range(1, len(news_vendor.categories) + 1)):
+                    print("❌ Please enter a valid option!")
+                    continue
+
+                # get selected category
+                selected_category = int(category_choice) - 1
+                break
+
+            #choose a news article from category
+            clear_screen()
+            print(f"🌍 Todays top international stories in {news_vendor.categories[selected_category]}: ")
+            print("")
+
+            # get and display articles from news vendor
+            news_vendor.get_articles(selected_category)
+            for idx, article in enumerate(news_vendor.selected_articles, 1):
+                print(f"({idx}) {article['title']}")
+            print("")
+            print(f"💳 Account Credits: ({user.credits})")
+
+            while True:
+                # get article choice
+                article_choice = input(f"Select article (1 - {len(news_vendor.selected_articles)}): ").strip()
+
+                if not article_choice in map(str, range(1, len(news_vendor.selected_articles) + 1)) or not article_choice:
+                    print("❌ Please enter a valid option!")
+                    continue
+
+                # get selected article and price
+                selected_article = news_vendor.selected_articles[int(article_choice) - 1]
+
+                # check if article discount applies
+                if selected_article == promo_category:
+                    article_price = 1
+                else:
+                    article_price = 2
+
+                # check if user has enough credits
+                if user.credits < article_price:
+                    clear_screen()
+                    print(f"❌ You don't have enough credits. These articles cost {article_price} credits each. Please top up your account!")
+                    print("↩️ Returning to main menu...")
+                    sleep(3)
+                    break
+
+                # purchase article and deduct account credits
+                user.credits -= article_price
+                user.purchased_articles.append(selected_article)
+                print(f"🎉 Article purchased for {article_price} credits!")
+                break
+
+
 
 if __name__ == "__main__":
     main()
