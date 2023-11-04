@@ -61,5 +61,32 @@ def main():
         # Main menu options
         choice = input(f"Please select an option:\n(1) Add Funds (💰 {currency.symbol}{user.funds:.2f})\n(2) Purchase Credits (💳 {user.credits} credits)\n(3) Purchase News Article\n(4) View Your Articles (📰 {len(user.purchased_articles)} articles)\n(5) Exit\nYour choice: ")
 
+        # Add funds to user's account
+        if choice == "1":
+            clear_screen()
+            print("============ Add Funds ============")
+            print(f"💰 Account Funds: ({currency.symbol}{user.funds:.2f})")
+            print("")
+
+            while True:
+                amount = input(f"Enter amount to add in {currency.currency_code}: ").strip()
+                # Check for empty input
+                if not amount:
+                    print("❌ Amount cannot be empty. Please try again!")
+                    continue
+                try:
+                    # Convert input to float and check its value
+                    amount_float = float(amount)
+                    if amount_float <= 0:
+                        print("❌ Amount must be greater than 0. Please try again!")
+                        continue
+                    else:
+                        # Add funds to user's account
+                        user.add_funds(amount_float)
+                        break
+                except ValueError:
+                    print("❌ Amount must be a number. Please try again!")
+
+
 if __name__ == "__main__":
     main()
