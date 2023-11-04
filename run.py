@@ -197,6 +197,27 @@ def main():
                 print(f"🎉 Article purchased for {article_price} credits!")
                 break
 
+        # View purchased articles
+        if choice == "4":
+            clear_screen()
+            print("======== Your Articles =========")
+            print(f"📰 Account Articles: ({len(user.purchased_articles)})")
+            print("")
+
+            if not user.purchased_articles:
+                print("You have not purchased any articles yet!")
+            else:
+                for idx, article in enumerate(user.purchased_articles, 1):
+                    print(f"({idx}) {article['title']} by {article['author']}")
+                    print(f"🗓️ published at: {article['publishedAt']}")
+                    print("================================")
+                    print(f"{article['description']}")
+                    print(f"Access link ➡️ {article['url']}")
+                    print("")
+
+            print("")
+            input("Press enter to return to main menu...")
+
 
 
 if __name__ == "__main__":
