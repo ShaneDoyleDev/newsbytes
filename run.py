@@ -52,5 +52,14 @@ def main():
     # instantiate news vendor class
     news_vendor = NewsVendor(news_api_key)
 
+    while True:
+        clear_screen()
+        print("============== MENU ==============")
+        print(f"👋 Welcome to NewsBytes, {user.username}!")
+        print("")
+
+        # Main menu options
+        choice = input(f"Please select an option:\n(1) Add Funds (💰 {currency.symbol}{user.funds:.2f})\n(2) Purchase Credits (💳 {user.credits} credits)\n(3) Purchase News Article\n(4) View Your Articles (📰 {len(user.purchased_articles)} articles)\n(5) Exit\nYour choice: ")
+
 if __name__ == "__main__":
     main()
