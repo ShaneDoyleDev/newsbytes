@@ -50,3 +50,6 @@ class NewsVendor:
         if current_day < len(self.categories):
             return self.categories[current_day]
         return None
+
+    def get_promo_message(self, category):
+        return self.promo_messages[category]
