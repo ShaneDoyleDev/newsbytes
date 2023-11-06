@@ -17,3 +17,9 @@ class Currency:
         "AUD": "$",
         "CNY": "¥"
     }
+
+    def __init__(self, api_key, currency_code):
+        self.api_key = api_key
+        self.currency_code = currency_code
+        self.symbol = self.get_symbol(currency_code)
+        self.conversion_rate = self._fetch_exchange_rate(currency_code)
