@@ -21,3 +21,26 @@ class NewsVendor:
             "science": "All science articles are 50% off today!",
             "health": "All health articles are 50% off today!"
         }
+
+    def get_articles(self, category):
+        try:
+            url = f"{self.BASE_URL}top-headlines?category={self.categories[category]}&language=en&apiKey={self.api_key}"
+            response = requests.get(url)
+            response.raise_for_status()
+
+            # Get articles from response
+            articles = response.json().get('articles', [])
+            self.selected_articles = []
+            while len(self.selected_articles) < 5 and articles:
+                article = random.choice(articles)
+                # Remove articles with [Removed] in the title
+                if '[Removed]' not in article['title']:
+                    self.selected_articles.append(article)
+                articles.remove(article)
+
+        except requests.ConnectionError:
+            # Handle connection errors
+            print("Error: Unable to connect to the server.")
+        except requests.HTTPError:
+            # Handle HTTP errors
+            print("Error: An HTTP error occurred.")
