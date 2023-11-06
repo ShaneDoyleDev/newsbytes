@@ -1,6 +1,7 @@
 import datetime
 import random
 import requests
+from rich.progress import track
 
 class NewsVendor:
     """News vendor for displaying and allowing the purchase of news articles."""
@@ -31,12 +32,17 @@ class NewsVendor:
             # Get articles from response
             articles = response.json().get('articles', [])
             self.selected_articles = []
-            while len(self.selected_articles) < 5 and articles:
+
+            # Get articles from response
+            for _ in track(range(5), description="Fetching articles..."):
+                if not articles:
+                    break
                 article = random.choice(articles)
                 # Remove articles with [Removed] in the title
                 if '[Removed]' not in article['title']:
                     self.selected_articles.append(article)
                 articles.remove(article)
+
 
         except requests.ConnectionError:
             # Handle connection errors
