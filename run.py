@@ -31,5 +31,14 @@ def main():
         else:
             break
 
+    # get user's currency
+    while True:
+        valid_currencies = ("USD", "EUR", "GBP", "CAD", "AUD", "CNY")
+        currency = input("💰 Select your currency (EUR, USD, GBP, CAD, AUD, CNY): \n").strip().upper()
+        if not currency in valid_currencies or not currency:
+            print("❌ Please enter a valid currency!")
+        else:
+            break
+
 if __name__ == "__main__":
     main()
