@@ -44,3 +44,9 @@ class NewsVendor:
         except requests.HTTPError:
             # Handle HTTP errors
             print("Error: An HTTP error occurred.")
+
+    def get_promo_category(self):
+        current_day = datetime.datetime.now().weekday()
+        if current_day < len(self.categories):
+            return self.categories[current_day]
+        return None
