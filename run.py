@@ -205,9 +205,23 @@ def main():
 
             # get and display articles from news vendor
             news_vendor.get_articles(selected_category)
-            for idx, article in enumerate(news_vendor.selected_articles, 1):
-                print(f"({idx}) {article['title']}")
             print("")
+
+            # Display articles in a table
+            articles_table = Table(show_header=True, header_style="bold cyan", box=box.ROUNDED, show_lines=True, title="Available Articles", title_style="bold cyan")
+
+            # Add columns to the articles table
+            articles_table.add_column("No.", style="cyan", justify="center")
+            articles_table.add_column("Title", style="white", justify="left")
+            articles_table.add_column("Author", style="green", justify="left")
+            articles_table.add_column("Published At", style="magenta", justify="left")
+
+            # Add rows to the articles table
+            for idx, article in enumerate(news_vendor.selected_articles, 1):
+                articles_table.add_row(f"({idx})", article['title'], article['author'] if 'author' in article else "N/A", article['publishedAt'])
+
+            # Print the articles table
+            console.print(articles_table)
             print(f"💳 Account Credits: ({user.credits})")
 
             while True:
