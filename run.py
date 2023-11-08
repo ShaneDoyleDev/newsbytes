@@ -277,8 +277,13 @@ def main():
         # Exit program
         if choice == "5":
             clear_screen()
-            print("👋 Thank you for using NewsBytes!")
-            print("Have a great day!")
+            # print goodbye message
+            LOGO = pyfiglet.figlet_format("NewsBytes", justify="center", font="slant")
+            print(LOGO)
+            print("")
+
+            console.print("👋 Thank you for using NewsBytes!", justify="center")
+            console.print("Have a great day!", justify="center")
             sleep(3)
             exit()
 
