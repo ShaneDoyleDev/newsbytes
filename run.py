@@ -146,19 +146,26 @@ def main():
         # Purchase news articles
         if choice == "3":
             clear_screen()
-            print("====== Purchase News Article ======")
-            print(f"💳 Account Credits: ({user.credits})")
+            console.print("====== Purchase News Article ======", justify="center", style="bold cyan")
+            console.print(f"💳 Account Credits: ({user.credits})", justify="center")
             print("")
 
             promo_category = news_vendor.get_promo_category()
+
+            table = Table(show_header=True, header_style="bold cyan", box=box.ROUNDED, show_lines=True, title="News Categories", title_style="bold cyan")
+            table.add_column("Option", justify="center", style="cyan", no_wrap=True)
+            table.add_column("Category", justify="center", style="white")
+            table.add_column("Cost", justify="center", style="green")
 
             # show categories
             for idx, category in enumerate(news_vendor.categories, 1):
                 # add promo message to category if it is the promo category
                 if category == promo_category:
-                    print(f"({idx}) {category.title()} - {news_vendor.get_promo_message(category)} (Cost: 1 credit)")
+                    table.add_row(f"({idx})", f"{category.title()} - {news_vendor.get_promo_message(category)}", "1 credit")
                 else:
-                    print(f"({idx}) {category.title()} - (Cost: 2 credits)")
+                    table.add_row(f"({idx})", f"{category.title()}",  "2 credits")
+
+            console.print(table)
 
             while True:
                 # get category choice
