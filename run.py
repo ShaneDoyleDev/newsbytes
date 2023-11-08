@@ -59,12 +59,30 @@ def main():
 
     while True:
         clear_screen()
-        print("============== MENU ==============")
-        print(f"👋 Welcome to NewsBytes, {user.username}!")
+        console.print("============== NewsBytes ==============", justify="center", style="bold cyan")
+        console.print(f"🌐 Welcome to NewsBytes, {user.username}! 🌐", justify="center")
         print("")
 
-        # Main menu options
-        choice = input(f"Please select an option:\n(1) Add Funds (💰 {currency.symbol}{user.funds:.2f})\n(2) Purchase Credits (💳 {user.credits} credits)\n(3) Purchase News Article\n(4) View Your Articles (📰 {len(user.purchased_articles)} articles)\n(5) Exit\nYour choice: ")
+        # Create a table instance
+        table = Table(show_header=True, header_style="bold cyan", box=box.ROUNDED, show_lines=True, title="Main Menu", title_style="bold cyan")
+
+        # Add columns to the table
+        table.add_column("Option", style="cyan", justify="center", no_wrap=True)
+        table.add_column("Description", justify="left", style="white")
+
+        # Add rows to the table with the menu options
+        table.add_row("(1)", f"Add Funds ({currency.symbol}{user.funds:.2f})")
+        table.add_row("(2)", "Purchase Credits ({} credits)".format(user.credits))
+        table.add_row("(3)", "Purchase News Article")
+        table.add_row("(4)", f"View Your Articles ({len(user.purchased_articles)} articles)")
+        table.add_row("(5)", "Exit")
+
+        # Print the table to the console
+        console.print(table, justify="center")
+        print("")
+
+        # Get user's choice
+        choice = input("Select your choice (1 - 5): ")
 
         # Add funds to user's account
         if choice == "1":
