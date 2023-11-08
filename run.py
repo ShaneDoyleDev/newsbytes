@@ -87,8 +87,8 @@ def main():
         # Add funds to user's account
         if choice == "1":
             clear_screen()
-            print("============ Add Funds ============")
-            print(f"💰 Account Funds: ({currency.symbol}{user.funds:.2f})")
+            console.print("============ Add Funds ============", justify="center", style="bold cyan")
+            console.print(f"💰 Account Funds: ({currency.symbol}{user.funds:.2f})", justify="center")
             print("")
 
             while True:
