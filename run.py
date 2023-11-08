@@ -24,9 +24,40 @@ def clear_screen():
     else:
         os.system('printf "\033c"')  # If the operating system is not Windows
 
+
 def prompt_main_menu():
     """Prompt user to return to main menu"""
     input("\nPress Enter to return to the main menu...")
+
+
+def add_funds(user, currency):
+    """Add funds to user's account"""
+    clear_screen()
+    console.print("============ Add Funds ============", justify="center", style="bold cyan")
+    console.print(f"💰 Account Funds: ({currency.symbol}{user.funds:.2f})", justify="center")
+    print("")
+
+    while True:
+        amount = input(f"Enter amount to add in {currency.currency_code}: ").strip()
+        # Check for empty input
+        if not amount:
+            print("❌ Amount cannot be empty. Please try again!")
+            continue
+        try:
+            # Convert input to float and check its value
+            amount_float = float(amount)
+            if amount_float <= 0:
+                print("❌ Amount must be greater than 0. Please try again!")
+                continue
+            else:
+                # Add funds to user's account
+                user.add_funds(amount_float)
+                console.print(f"✅ {currency.symbol}{amount_float:.2f} added successfully!", style="bold green")
+                prompt_main_menu()
+                break
+        except ValueError:
+            print("❌ Amount must be a number. Please try again!")
+
 
 def main():
     """Main function."""
