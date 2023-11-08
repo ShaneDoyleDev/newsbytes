@@ -18,9 +18,11 @@ news_api_key = os.environ.get('NEWS_API_KEY')
 console = Console()
 
 def clear_screen():
-    """Clears the terminal screen."""
-    os.system('cls' if os.name == 'nt' else 'clear')
-
+    """Clears the terminal screen"""
+    if os.name == 'nt':  # If the operating system is Windows
+        os.system('cls')
+    else:
+        os.system('printf "\033c"')  # If the operating system is not Windows
 
 def main():
     """Main function."""
