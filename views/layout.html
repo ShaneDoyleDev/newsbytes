@@ -165,14 +165,27 @@
       }
 
       button {
-        width: 200px;
-        height: 40px;
-        background-color: #e84610;
-        border: 1px solid grey;
+        display: inline-block;
+        outline: 0;
+        border: none;
+        cursor: pointer;
+        padding: 0 24px;
+        border-radius: 50px;
+        min-width: 200px;
+        height: 50px;
+        font-size: 18px;
+        background-color: #323049;
+        font-weight: 500;
         color: white;
-        text-transform: uppercase;
-        margin: 10px;
-        border-radius: 8px;
+      }
+
+      button:hover {
+        background-color: #43435f;
+        transition: 0.3s;
+      }
+
+      button:active {
+        background-color: #1e1e2f;
       }
     </style>
   </head>
