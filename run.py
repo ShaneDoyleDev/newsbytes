@@ -113,10 +113,24 @@ def main():
         # Purchase credits for users account
         if choice == "2":
             clear_screen()
-            print("========= Purchase Credits =========")
-            print(f"💳 Account Credits: ({user.credits})")
+            console.print("========= Purchase Credits =========", justify="center", style="bold cyan")
+            console.print(f"💳 Account Credits: ({user.credits})", justify="center")
+            print("")
+
+            # Create a table for purchasing credits
+            credits_table = Table(show_header=True, header_style="bold magenta", box=box.ROUNDED, show_lines=True, title="Credit Packages", title_style="bold cyan")
+
+            # Add columns to the table
+            credits_table.add_column("Option", style="cyan", justify="center", no_wrap=True)
+            credits_table.add_column("Credits", justify="center", style="white")
+            credits_table.add_column("Cost", justify="center", style="green")
+
+            # Add rows to the table with the credit purchase options
             for idx, option in enumerate(news_vendor.credit_options, 1):
-                print(f"({idx}) {option} credits: {currency.symbol}{option * currency.conversion_rate:.2f}")
+                credits_table.add_row(f"({idx})", f"{option} credits", f"{currency.symbol}{option * currency.conversion_rate:.2f}")
+
+            # Print the table to the console
+            console.print(credits_table, justify="center")
             print("")
 
             while True:
