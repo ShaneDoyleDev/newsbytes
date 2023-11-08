@@ -200,7 +200,7 @@ def main():
 
             #choose a news article from category
             clear_screen()
-            print(f"🌍 Todays top international stories in {news_vendor.categories[selected_category]}: ")
+            console.print(f"🌍 Todays top international stories in {news_vendor.categories[selected_category]} 🌍", justify="center", style="cyan")
             print("")
 
             # get and display articles from news vendor
