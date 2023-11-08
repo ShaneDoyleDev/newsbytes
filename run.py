@@ -244,20 +244,32 @@ def main():
         # View purchased articles
         if choice == "4":
             clear_screen()
-            print("======== Your Articles =========")
-            print(f"📰 Account Articles: ({len(user.purchased_articles)})")
-            print("")
+            console.print("======== Your Articles =========", justify="center", style="bold cyan")
 
             if not user.purchased_articles:
-                print("You have not purchased any articles yet!")
+                console.print("You have not purchased any articles yet!", style="bold red")
             else:
+                # Loop through each purchased article
                 for idx, article in enumerate(user.purchased_articles, 1):
-                    print(f"({idx}) {article['title']} by {article['author']}")
-                    print(f"🗓️ published at: {article['publishedAt']}")
-                    print("================================")
-                    print(f"{article['description']}")
-                    print(f"Access link ➡️ {article['url']}")
-                    print("")
+                    # Create a table for this particular article
+                    article_table = Table(show_header=True, header_style="bold cyan", box=box.ROUNDED, show_lines=True)
+
+                    # Add columns to the article table
+                    article_table.add_column("No.", style="cyan", justify="center", no_wrap=True)
+                    article_table.add_column("Title", justify="center", style="white")
+                    article_table.add_column("Description", justify="center", style="white")
+
+                    # Add the article details as a row
+                    article_table.add_row(
+                        str(idx),
+                        article['title'],
+                        article['description'] or "No description available."  # Handle possible missing description
+                    )
+
+                    console.print(article_table, justify="center")
+
+                    # Display the article's access link below each table
+                    console.print(f"\n🔗 [bold blue]Access Link:[/] {article['url']}\n", justify="center")
 
             print("")
             input("Press enter to return to main menu...")
