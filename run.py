@@ -24,6 +24,10 @@ def clear_screen():
     else:
         os.system('printf "\033c"')  # If the operating system is not Windows
 
+def prompt_main_menu():
+    """Prompt user to return to main menu"""
+    input("\nPress Enter to return to the main menu...")
+
 def main():
     """Main function."""
     clear_screen()
