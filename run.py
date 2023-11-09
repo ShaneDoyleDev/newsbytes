@@ -210,37 +210,35 @@ def purchase_article(user, news_vendor):
 def view_purchased_articles(user):
     """View purchased articles"""
     clear_screen()
-    console.print("========= Your Articles =========", justify="center", style="bold cyan")
-    print("")
+    console.print("======== Your Articles =========", justify="center", style="bold cyan")
 
     if not user.purchased_articles:
-        console.print("You have not purchased any articles yet.", style="italic")
+        console.print("You have not purchased any articles yet!", style="bold red")
     else:
-        # Create a table for the purchased articles
-        purchased_articles_table = Table(show_header=True, header_style="bold magenta", box=box.ROUNDED, show_lines=True, title="Purchased Articles", title_style="bold cyan")
+        # Loop through each purchased article
+        for idx, article in enumerate(user.purchased_articles, 1):
+            # Create a table for this particular article
+            article_table = Table(show_header=True, header_style="bold cyan", box=box.ROUNDED, show_lines=True)
 
-        # Add columns to the table
-        purchased_articles_table.add_column("Title", justify="left", style="white")
-        purchased_articles_table.add_column("Content", justify="left", style="white")
+            # Add columns to the article table
+            article_table.add_column("No.", style="cyan", justify="center", no_wrap=True)
+            article_table.add_column("Title", justify="center", style="white")
+            article_table.add_column("Description", justify="center", style="white")
 
-        # Add rows to the table with the purchased articles
-        for article in user.purchased_articles:
-            purchased_articles_table.add_row(article.title, article.content)
+            # Add the article details as a row
+            article_table.add_row(
+                str(idx),
+                article['title'],
+                article['description'] or "No description available."  # Handle possible missing description
+            )
 
-        # Print the table to the console
-        console.print(purchased_articles_table, justify="center")
+            console.print(article_table, justify="center")
 
+            # Display the article's access link below each table
+            console.print(f"\n🔗 [bold blue]Access Link:[/] {article['url']}\n", justify="center")
+
+    print("")
     prompt_main_menu()
-
-
-def exit_program():
-    """Exit program"""
-    clear_screen()
-    print(pyfiglet.figlet_format("Goodbye!", font="slant"))
-    console.print("👋 Thank you for using NewsBytes!", justify="center")
-    console.print("Have a great day!", justify="center")
-    sleep(2)
-    exit()
 
 
 def main():
