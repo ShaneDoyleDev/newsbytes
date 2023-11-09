@@ -241,6 +241,15 @@ def view_purchased_articles(user):
     prompt_main_menu()
 
 
+def exit_program():
+    """Exit program and display goodbye message"""
+    clear_screen()
+    print(pyfiglet.figlet_format("Goodbye!", font="slant", justify="center"))
+    console.print("👋 Thank you for using NewsBytes!", justify="center")
+    console.print("Have a great day!", justify="center")
+    exit()
+
+
 def main():
     """Main function."""
     clear_screen()
