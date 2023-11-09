@@ -108,6 +108,141 @@ def purchase_credits(user, currency, news_vendor):
             break
 
 
+def purchase_article(user, news_vendor):
+    """Purchase news articles"""
+    clear_screen()
+    console.print("====== Purchase News Article ======", justify="center", style="bold cyan")
+    console.print(f"💳 Account Credits: ({user.credits})", justify="center")
+    print("")
+
+    promo_category = news_vendor.get_promo_category()
+
+    table = Table(show_header=True, header_style="bold cyan", box=box.ROUNDED, show_lines=True, title="News Categories", title_style="bold cyan")
+    table.add_column("Option", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Category", justify="center", style="white")
+    table.add_column("Cost", justify="center", style="green")
+
+    # show categories
+    for idx, category in enumerate(news_vendor.categories, 1):
+        # add promo message to category if it is the promo category
+        if category == promo_category:
+            table.add_row(f"({idx})", f"{category.title()} - {news_vendor.get_promo_message(category)}", "1 credit")
+        else:
+            table.add_row(f"({idx})", f"{category.title()}",  "2 credits")
+
+    console.print(table)
+
+    while True:
+        # get category choice
+        print("")
+        category_choice = input(f"Select category (1 - {len(news_vendor.categories)}): ").strip()
+
+        if not category_choice:
+            print("❌ Category cannot be empty. Please try again!")
+            continue
+
+        if not category_choice in map(str, range(1, len(news_vendor.categories) + 1)):
+            print("❌ Please enter a valid option!")
+            continue
+
+        # get selected category
+        selected_category = int(category_choice) - 1
+        break
+
+    #choose a news article from category
+    clear_screen()
+    console.print(f"🌍 Todays top international stories in {news_vendor.categories[selected_category]} 🌍", justify="center", style="cyan")
+    print("")
+
+    # get and display articles from news vendor
+    news_vendor.get_articles(selected_category)
+    print("")
+
+    # Display articles in a table
+    articles_table = Table(show_header=True, header_style="bold cyan", box=box.ROUNDED, show_lines=True, title="Available Articles", title_style="bold cyan")
+
+    # Add columns to the articles table
+    articles_table.add_column("No.", style="cyan", justify="center")
+    articles_table.add_column("Title", style="white", justify="left")
+    articles_table.add_column("Author", style="green", justify="left")
+    articles_table.add_column("Published At", style="magenta", justify="left")
+
+    # Add rows to the articles table
+    for idx, article in enumerate(news_vendor.selected_articles, 1):
+        articles_table.add_row(f"({idx})", article['title'], article['author'] if 'author' in article else "N/A", article['publishedAt'])
+
+    # Print the articles table
+    console.print(articles_table)
+    print(f"💳 Account Credits: ({user.credits})")
+
+    while True:
+        # get article choice
+        article_choice = input(f"Select article (1 - {len(news_vendor.selected_articles)}): ").strip()
+
+        if not article_choice in map(str, range(1, len(news_vendor.selected_articles) + 1)) or not article_choice:
+            print("❌ Please enter a valid option!")
+            continue
+
+        # get selected article and price
+        selected_article = news_vendor.selected_articles[int(article_choice) - 1]
+
+        # check if article discount applies
+        if selected_article == promo_category:
+            article_price = 1
+        else:
+            article_price = 2
+
+        # check if user has enough credits
+        if user.credits < article_price:
+            clear_screen()
+            console.print(f"❌ You don't have enough credits. ❌", style="bold red", justify="center")
+            console.print(f"These articles cost {article_price} credits each. Please top up your account!", justify="center")
+            prompt_main_menu()
+            break
+
+        # purchase article and deduct account credits
+        user.credits -= article_price
+        user.purchased_articles.append(selected_article)
+        print(f"🎉 Article purchased for {article_price} credits!")
+        break
+
+
+def view_purchased_articles(user):
+    """View purchased articles"""
+    clear_screen()
+    console.print("========= Your Articles =========", justify="center", style="bold cyan")
+    print("")
+
+    if not user.purchased_articles:
+        console.print("You have not purchased any articles yet.", style="italic")
+    else:
+        # Create a table for the purchased articles
+        purchased_articles_table = Table(show_header=True, header_style="bold magenta", box=box.ROUNDED, show_lines=True, title="Purchased Articles", title_style="bold cyan")
+
+        # Add columns to the table
+        purchased_articles_table.add_column("Title", justify="left", style="white")
+        purchased_articles_table.add_column("Content", justify="left", style="white")
+
+        # Add rows to the table with the purchased articles
+        for article in user.purchased_articles:
+            purchased_articles_table.add_row(article.title, article.content)
+
+        # Print the table to the console
+        console.print(purchased_articles_table, justify="center")
+
+    prompt_main_menu()
+
+
+def exit_program():
+    """Exit program"""
+    clear_screen()
+    print(pyfiglet.figlet_format("Goodbye!", font="slant"))
+    console.print("👋 Thank you for using NewsBytes!", justify="center")
+    console.print("Have a great day!", justify="center")
+    sleep(2)
+    exit()
+
+
 def main():
     """Main function."""
     clear_screen()
