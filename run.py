@@ -59,6 +59,55 @@ def add_funds(user, currency):
             print("❌ Amount must be a number. Please try again!")
 
 
+def purchase_credits(user, currency, news_vendor):
+    """Purchase credits for users account"""
+    clear_screen()
+    console.print("========= Purchase Credits =========", justify="center", style="bold cyan")
+    console.print(f"💳 Account Credits: ({user.credits})", justify="center")
+    print("")
+
+    # Create a table for purchasing credits
+    credits_table = Table(show_header=True, header_style="bold magenta", box=box.ROUNDED, show_lines=True, title="Credit Packages", title_style="bold cyan")
+
+    # Add columns to the table
+    credits_table.add_column("Option", style="cyan", justify="center", no_wrap=True)
+    credits_table.add_column("Credits", justify="center", style="white")
+    credits_table.add_column("Cost", justify="center", style="green")
+
+    # Add rows to the table with the credit purchase options
+    for idx, option in enumerate(news_vendor.credit_options, 1):
+        credits_table.add_row(f"({idx})", f"{option} credits", f"{currency.symbol}{option * currency.conversion_rate:.2f}")
+
+    # Print the table to the console
+    console.print(credits_table, justify="center")
+    print("")
+
+    while True:
+        credits_choice = input(f"Select credit package to purchase (1 - {len(news_vendor.credit_options)}), or enter 'back' to go back: ").strip().lower()
+
+        # Check if user wants to go back to main menu
+        if credits_choice == 'back':
+            break
+
+        # Check if user entered a valid credit selection
+        if not credits_choice.isdigit() or int(credits_choice) not in range(1, len(news_vendor.credit_options) + 1):
+            console.print("❌ Invalid choice. Please select a valid option from the table.", style="bold red")
+            continue
+        else:
+            credits_index = int(credits_choice) - 1
+            credits_amount = news_vendor.credit_options[credits_index]
+            cost = credits_amount * currency.conversion_rate
+
+            if user.funds >= cost:
+                user.purchase_credits(credits_amount, cost)
+                console.print(f"✅ {credits_amount} credits purchased successfully for {currency.symbol}{cost:.2f}!", style="bold green")
+            else:
+                console.print(f"❌ Insufficient funds. You need {currency.symbol}{cost - user.funds:.2f} more to purchase this package.", style="bold red")
+
+            prompt_main_menu()
+            break
+
+
 def main():
     """Main function."""
     clear_screen()
