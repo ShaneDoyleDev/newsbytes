@@ -1,6 +1,7 @@
 import os
 import pyfiglet
 from dotenv import load_dotenv
+from user_account import UserAccount
 
 # Load environment variables from '.env' file.
 load_dotenv()
@@ -40,5 +41,7 @@ def main():
         else:
             break
 
+    # instantiate user class
+    user = UserAccount(username)
 if __name__ == "__main__":
     main()
