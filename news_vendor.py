@@ -3,8 +3,12 @@ import random
 import requests
 from rich.progress import track
 
+
 class NewsVendor:
-    """News vendor for displaying and allowing the purchase of news articles."""
+    """
+    News vendor for displaying
+    and allowing the purchase of news articles.
+    """
 
     BASE_URL = "https://newsapi.org/v2/"
 
@@ -12,7 +16,9 @@ class NewsVendor:
         self.api_key = api_key
         self.credit_options = [5, 10, 15, 20]
         self.selected_articles = []
-        self.categories = ["sports", "business", "technology", "entertainment", "politics", "science", "health"]
+        self.categories = ["sports", "business",
+                           "technology", "entertainment",
+                           "politics", "science", "health"]
         self.promo_messages = {
             "sports": "All sports articles are 50% off today!",
             "business": "All business articles are 50% off today!",
@@ -25,7 +31,9 @@ class NewsVendor:
 
     def get_articles(self, category):
         try:
-            url = f"{self.BASE_URL}top-headlines?category={self.categories[category]}&language=en&apiKey={self.api_key}"
+            url = (f"{self.BASE_URL}top-headlines?category="
+                   f"{self.categories[category]}&language=en&"
+                   f"apiKey={self.api_key}")
             response = requests.get(url)
             response.raise_for_status()
 
@@ -42,7 +50,6 @@ class NewsVendor:
                 if '[Removed]' not in article['title']:
                     self.selected_articles.append(article)
                 articles.remove(article)
-
 
         except requests.ConnectionError:
             # Handle connection errors
