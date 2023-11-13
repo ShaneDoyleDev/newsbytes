@@ -223,6 +223,13 @@ def main():
             print("")
             input("Press enter to return to main menu...")
 
+        # Exit program
+        if choice == "5":
+            clear_screen()
+            print("👋 Thank you for using NewsBytes!")
+            print("Have a great day!")
+            sleep(3)
+            exit()
 
 
 if __name__ == "__main__":
