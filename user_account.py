@@ -9,3 +9,9 @@ class UserAccount:
     def add_funds(self, amount):
         """Add funds to user's account."""
         self.funds += round(amount, 2)
+
+    def purchase_credits(self, credits_amount, cost):
+        """Purchase credits for user's account."""
+        if self.funds >= cost:
+            self.credits += credits_amount
+            self.funds -= cost
