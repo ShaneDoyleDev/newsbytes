@@ -23,3 +23,7 @@ class Currency:
         self.currency_code = currency_code
         self.symbol = self.get_symbol(currency_code)
         self.conversion_rate = self._fetch_exchange_rate(currency_code)
+
+    def get_symbol(self, currency_code):
+        """Retrieve the currency symbol based on the currency code."""
+        return self.CURRENCY_SYMBOLS.get(currency_code, "")
