@@ -1,6 +1,9 @@
 import os
 import pyfiglet
 from dotenv import load_dotenv
+from rich import box
+from rich.console import Console
+from rich.table import Table
 from user_account import UserAccount
 from currency import Currency
 from news_vendor import NewsVendor
@@ -11,6 +14,8 @@ api_key = os.environ.get('API_KEY')
 
 exchange_rate_api_key = os.environ.get('EXCHANGE_RATE_API_KEY')
 news_api_key = os.environ.get('NEWS_API_KEY')
+
+console = Console()
 
 def clear_screen():
     """Clears the terminal screen."""
